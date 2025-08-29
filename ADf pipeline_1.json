@@ -1,0 +1,126 @@
+{
+    "name": "Copy data1",
+    "type": "Copy",
+    "dependsOn": [],
+    "policy": {
+        "timeout": "0.12:00:00",
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "source": {
+            "type": "DelimitedTextSource",
+            "storeSettings": {
+                "type": "AzureBlobFSReadSettings",
+                "recursive": true,
+                "enablePartitionDiscovery": false
+            },
+            "formatSettings": {
+                "type": "DelimitedTextReadSettings"
+            }
+        },
+        "sink": {
+            "type": "AzureSqlSink",
+            "writeBehavior": "insert",
+            "sqlWriterUseTableLock": false
+        },
+        "enableStaging": false,
+        "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+                {
+                    "source": {
+                        "name": "customer_id",
+                        "type": "String",
+                        "physicalType": "String"
+                    },
+                    "sink": {
+                        "name": "customer_id",
+                        "type": "String",
+                        "physicalType": "nvarchar"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "country",
+                        "type": "String",
+                        "physicalType": "String"
+                    },
+                    "sink": {
+                        "name": "country",
+                        "type": "String",
+                        "physicalType": "varchar"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "market_segment",
+                        "type": "String",
+                        "physicalType": "String"
+                    },
+                    "sink": {
+                        "name": "market_segment",
+                        "type": "String",
+                        "physicalType": "varchar"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "adults",
+                        "type": "String",
+                        "physicalType": "String"
+                    },
+                    "sink": {
+                        "name": "adults",
+                        "type": "Int32",
+                        "physicalType": "int"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "children",
+                        "type": "String",
+                        "physicalType": "String"
+                    },
+                    "sink": {
+                        "name": "children",
+                        "type": "Int32",
+                        "physicalType": "int"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "babies",
+                        "type": "String",
+                        "physicalType": "String"
+                    },
+                    "sink": {
+                        "name": "babies",
+                        "type": "Int32",
+                        "physicalType": "int"
+                    }
+                }
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+                "allowDataTruncation": true,
+                "treatBooleanAsNumber": false
+            }
+        }
+    },
+    "inputs": [
+        {
+            "referenceName": "source_dim_customer",
+            "type": "DatasetReference"
+        }
+    ],
+    "outputs": [
+        {
+            "referenceName": "AzureSqlTable2",
+            "type": "DatasetReference"
+        }
+    ]
+}

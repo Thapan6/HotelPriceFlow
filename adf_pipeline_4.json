@@ -1,0 +1,102 @@
+{
+    "name": "hotel4",
+    "type": "Copy",
+    "dependsOn": [],
+    "policy": {
+        "timeout": "0.12:00:00",
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "source": {
+            "type": "DelimitedTextSource",
+            "storeSettings": {
+                "type": "AzureBlobFSReadSettings",
+                "recursive": true,
+                "enablePartitionDiscovery": false
+            },
+            "formatSettings": {
+                "type": "DelimitedTextReadSettings"
+            }
+        },
+        "sink": {
+            "type": "AzureSqlSink",
+            "writeBehavior": "insert",
+            "sqlWriterUseTableLock": false
+        },
+        "enableStaging": false,
+        "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+                {
+                    "source": {
+                        "name": "time_id",
+                        "type": "String",
+                        "physicalType": "String"
+                    },
+                    "sink": {
+                        "name": "time_id",
+                        "type": "Int32",
+                        "physicalType": "int"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "year",
+                        "type": "String",
+                        "physicalType": "String"
+                    },
+                    "sink": {
+                        "name": "year",
+                        "type": "Int32",
+                        "physicalType": "int"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "month",
+                        "type": "String",
+                        "physicalType": "String"
+                    },
+                    "sink": {
+                        "name": "month",
+                        "type": "Int32",
+                        "physicalType": "int"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "weekday",
+                        "type": "String",
+                        "physicalType": "String"
+                    },
+                    "sink": {
+                        "name": "weekday",
+                        "type": "String",
+                        "physicalType": "varchar"
+                    }
+                }
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+                "allowDataTruncation": true,
+                "treatBooleanAsNumber": false
+            }
+        }
+    },
+    "inputs": [
+        {
+            "referenceName": "source_dim_time",
+            "type": "DatasetReference"
+        }
+    ],
+    "outputs": [
+        {
+            "referenceName": "AzureSqlTable4",
+            "type": "DatasetReference"
+        }
+    ]
+}
